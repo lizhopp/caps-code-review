@@ -6,7 +6,7 @@ const url =
   // This first checks if there is a DATABASE_URL in the environment.
   process.env.DATABASE_URL ||
   // If there is no DATABASE_URL, it uses this local database connection string instead.
-  "postgres://ifeoladokun:password@localhost:5432/skill-trees";
+  "postgres://ifeoladokun:password@localhost:5432/skill_tree_builder";
 
 // This creates a new PostgreSQL client using the url above.
 const db = new pg.Client(url);

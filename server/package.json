@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "## Overview",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "db:schema": "psql -d greetings -f db/schema.sql",
-    "db:seed": "node --env-file=example.env db/seed.js"
-
+    "db:schema": "psql postgres://ifeoladokun:password@localhost:5432/skill_tree_builder -f db/schema.sql",
+    "db:seed": "node --env-file=db/example.env db/seed.js"
   },
   "repository": {
     "type": "git",

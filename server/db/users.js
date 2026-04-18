@@ -13,6 +13,18 @@ export async function getUsers() {
   return rows;
 }
 
+// This function gets one user by email.
+export async function getUserByEmail(email) {
+  // This runs a SQL query that looks for one user with the matching email.
+  const {
+    // This takes the first row from the rows array and names it user.
+    rows: [user],
+  } = await db.query("SELECT * FROM users WHERE email = $1;", [email]);
+
+  // This returns the one user that was found.
+  return user;
+}
+
 // This function gets one user by id.
 export async function getUserById(id) {
   // This runs a SQL query that looks for one user with the matching id.
@@ -46,12 +58,9 @@ export async function createUser(name, email, passwordHash) {
 
 // This function creates the users table.
 export async function createUsersTable() {
-  // This deletes the table first if it already exists.
-  await db.query(`DROP TABLE IF EXISTS users;`);
-
-  // This creates a fresh users table.
+  // This creates the users table if it does not already exist.
   await db.query(`
-    CREATE TABLE users (
+    CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       name VARCHAR(100) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
@@ -59,13 +68,4 @@ export async function createUsersTable() {
       created_at TIMESTAMP DEFAULT NOW()
     );
   `);
-}
-
-// This function resets the users table and adds one starter user.
-export async function seedUsers() {
-  // This makes sure the users table exists first.
-  await createUsersTable();
-
-  // This adds one sample user to the database.
-  await createUser("Demo User", "demo@example.com", "password123");
 }

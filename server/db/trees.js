@@ -13,6 +13,18 @@ export async function getTrees() {
   return rows;
 }
 
+// This function gets every tree that belongs to one user.
+export async function getTreesByUserId(userId) {
+  // This stores the SQL query in a variable.
+  const SQL = "SELECT * FROM skill_trees WHERE user_id = $1 ORDER BY id;";
+
+  // This runs the SQL query.
+  const { rows } = await db.query(SQL, [userId]);
+
+  // This returns all of the tree rows for one user.
+  return rows;
+}
+
 // This function gets one tree by id.
 export async function getTreeById(id) {
   // This runs a SQL query that looks for one tree with the matching id.
@@ -48,9 +60,9 @@ export async function createTree(userId, title, description, isPublic) {
 export async function createTreesTable() {
   // This runs a CREATE TABLE query in PostgreSQL.
   await db.query(`
-    CREATE TABLE skill_trees (
+    CREATE TABLE IF NOT EXISTS skill_trees (
       id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       title VARCHAR(150) NOT NULL,
       description TEXT,
       is_public BOOLEAN DEFAULT FALSE,
