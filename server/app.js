@@ -49,6 +49,11 @@ app.use(
   })
 );
 
+// This route shows a simple message at the root URL.
+app.get("/", (_request, response) => {
+  response.json({ message: "Skill Tree Builder API is running." });
+});
+
 // This is a simple health route to check if the server is running.
 app.get("/api/health", (_request, response) => {
   response.json({ ok: true });
